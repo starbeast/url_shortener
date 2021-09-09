@@ -1,0 +1,9 @@
+:concurrency: <%= ENV["SIDEKIQ_CONCURRENCY"] || 5 %>
+
+:queues:
+  - [default, 5]
+:enabled: true
+:schedule:
+  generate_shortened_urls:
+    cron: '*/1 * * * *'                # At every minute.
+    class: GenerateShortenedUrlsWorker
