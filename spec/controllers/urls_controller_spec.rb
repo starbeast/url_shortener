@@ -67,6 +67,15 @@ RSpec.describe 'Urls API', type: :request do
       get urls_path, headers: headers
       expect(response).to have_http_status(401)
     end
+
+    it 'returns urls created by a current user' do
+      post login_path, headers: headers, params: { email: user.email, password: 'password' }.to_json
+      [another_user_url, url, user_url]
+      get urls_path, headers: headers, params: { page: 1, per_page: 100 }.to_json
+      expect(response).to have_http_status(200)
+      expect(json.dig('urls', 0, 'url')).to eq(user_url.url)
+      expect(json.dig('pagination', 'total')).to eq(1)
+    end
   end
 
   describe '#destroy' do

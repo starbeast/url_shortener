@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Route, RouteProps } from "react-router-dom";
+import { isAuthenticated } from "../utils/auth";
 import { Main } from "./Main";
 import { RouteHandler } from "./topLevelRouteHandlers";
 
@@ -9,14 +10,7 @@ interface PrivateRouteProps extends RouteProps {
 
 export const PrivateRoute = (props: PrivateRouteProps) => {
   const { handler: Handler, ...restProps } = props;
-
-  const { pathname, search } = props.location || {};
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo({ top: 0 });
-    }, 50);
-  }, [pathname, search]);
+  const authenticated = isAuthenticated();
 
   if (!authenticated) {
     window.location.replace(Main.route);

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BrowserRoute, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { hot } from "react-hot-loader";
 import "./../assets/scss/App.scss";
 import { Main } from "../routes/Main";
@@ -8,7 +8,7 @@ import { topLevelRouteHandlers } from "../routes/topLevelRouteHandlers";
 
 export const App = () => {
   return (
-    <BrowserRoute>
+    <BrowserRouter>
       <Switch>
         {topLevelRouteHandlers.map(handler =>
           handler.public ? (
@@ -28,7 +28,7 @@ export const App = () => {
         )}
         <Redirect to={Main.route} />
       </Switch>
-    </BrowserRoute>
+    </BrowserRouter>
   )
 };
 
