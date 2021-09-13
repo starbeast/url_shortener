@@ -22,7 +22,7 @@ type Options = {
   query?: { [key: string]: any };
   body?: { [key: string]: any };
   fetchOpts?: RequestInit;
-  onError?: (e: Response | Error) => Promise<void>;
+  onError?: (e: Response | Error) => Promise<{ response: Response; data: any }>;
   skipCsrf?: boolean;
 };
 
@@ -51,7 +51,9 @@ const apiCall = async (
   try {
     const url = `${API_URL}${path}`;
     const body = options.body || {};
-    const query = options.query ? queryString.stringify(toSnake(options.query)) : "";
+    const query = options.query
+      ? queryString.stringify(toSnake(options.query))
+      : "";
     const init: RequestInit = {
       ...fetchOpts,
       credentials: "include",
@@ -72,8 +74,11 @@ const apiCall = async (
       init.headers["X-CSRF-Token"] = cookies.get(CSRF_COOKIE);
     }
     const response = await fetch(url + (query ? `?${query}` : ""), init);
+    if (!response.ok) {
+      throw response;
+    }
     const responseJson = await response.json();
-    return camelize(responseJson);
+    return { response, data: camelize(responseJson) };
   } catch (error) {
     if (onError) {
       return onError(error);
@@ -86,7 +91,7 @@ const apiCall = async (
 const handleNotAuthorized = async (error) => {
   if (error instanceof Response && error.status === 401) {
     markAuthenticated(false);
-    return;
+    return { response: error, data: null };
   }
   throw error;
 };
@@ -106,19 +111,28 @@ export const destroyUrl = (shortenedUrl: string) =>
   apiCall(`/urls/${shortenedUrl}`, { fetchOpts: { method: "DELETE" } });
 export const destroyApiKey = (id: number) =>
   apiCall(`/api_tokens/${id}`, { fetchOpts: { method: "DELETE" } });
-export const login = (loginOpts: LoginOpts) =>
-  apiCall("/login", {
+export const login = async (loginOpts: LoginOpts) => {
+  const result = await apiCall("/login", {
     fetchOpts: { method: "POST" },
     body: loginOpts,
     skipCsrf: true,
   });
-export const logout = () => apiCall("/logout");
-export const signUp = (signupOpts: SignupOpts) =>
-  apiCall("/signup", {
+  markAuthenticated(true);
+  return result;
+};
+export const logout = async () => {
+  await apiCall("/logout");
+  markAuthenticated(false);
+};
+export const signUp = async (signupOpts: SignupOpts) => {
+  const result = await apiCall("/signup", {
     fetchOpts: { method: "POST" },
     body: signupOpts,
     skipCsrf: true,
   });
+  markAuthenticated(true);
+  return result;
+};
 
 export default {
   fetchUrls,

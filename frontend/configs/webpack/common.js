@@ -43,6 +43,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: "index.html.ejs" }),
     new webpack.DefinePlugin({
+      APP_URL: JSON.stringify(env.APP_URL),
       API_URL: JSON.stringify(env.API_URL),
       CSRF_COOKIE: JSON.stringify(env.CSRF_COOKIE),
     }),

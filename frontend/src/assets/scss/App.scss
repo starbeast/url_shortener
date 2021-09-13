@@ -1,12 +1,21 @@
-$bg-color: yellow;
-$border-color: red;
-
-.app {
+body {
   font-family: helvetica, arial, sans-serif;
-  padding: 2em;
-  border: 5px solid $border-color;
+  color: var(--default-font);
+  padding: 0;
+  margin: 0;
 
-  p {
-    background-color: $bg-color;
-  }
+  --default-font: #16192b;
+  --color-rose: #fee1e4;
+  --color-red: #ff344a;
+  --color-red-light: #f75869;
+  --color-blue: #009eff;
+  --color-dark-gray: #6d6b77;
+  --color-gray: #ada9bb;
+  --color-gray-light: #dbd7e6;
+  --color-gray-lighter: #e7e7e9;
+  --color-green: #6abaa4;
+}
+
+* {
+  box-sizing: border-box;
 }
