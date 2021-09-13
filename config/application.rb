@@ -38,8 +38,9 @@ module UrlShortener
     ]
 
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore
-
-    config.session_store :cookie_store, key: '_url_shortener_session', secure: true, same_site: :none
+    config.middleware.use ActionDispatch::Session::CookieStore,
+                          key: '_url_shortener_session',
+                          secure: true,
+                          same_site: :none
   end
 end

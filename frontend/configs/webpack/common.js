@@ -1,11 +1,12 @@
 // shared config (dev and prod)
+const webpack = require("webpack");
 const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 let env;
 try {
   // eslint-disable-next-line global-require
-  env = require('../env');
+  env = require("../env");
 } catch (e) {
   env = {};
 }
@@ -43,6 +44,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: "index.html.ejs" }),
     new webpack.DefinePlugin({
       API_URL: JSON.stringify(env.API_URL),
+      CSRF_COOKIE: JSON.stringify(env.CSRF_COOKIE),
     }),
   ],
   externals: {

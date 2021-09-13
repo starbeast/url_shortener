@@ -12,13 +12,18 @@ $ docker-compose run web bundle exec rake db:migrate
 You can modify `docker-compose.yml` in case your local docker-compose version doesn't match
 the one defined in the compose file
 
-the API can be accessed on localhost:3000
+the API can be accessed on https://localhost:3000
+
+SSL cert is in the repo for testing purposes, in case you need to create a new cert just run
+
+```mkcert local```
 
 To start the FE
 ```
-npm start
+yarn install
+yarn run start-dev
 ```
-and then open the UI on localhost:3001
+and then open the UI on https://localhost:3001
 
 ## Design decisions
 

@@ -22,7 +22,7 @@
     "composite": false,
     "declaration": false,
     "outDir": "./build",
-    "baseUrl": ".",
+    "baseUrl": "."
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["**/*.fixture.*"]

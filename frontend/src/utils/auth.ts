@@ -1,7 +1,7 @@
 export const isAuthenticated = () => {
   let authenticated: boolean;
   try {
-    authenticated = localStorage.getItem('authenticated') === 't';
+    authenticated = localStorage.getItem("authenticated") === "t";
   } catch {
     authenticated = false;
   }
@@ -10,6 +10,6 @@ export const isAuthenticated = () => {
 
 export const markAuthenticated = (authenticated: boolean) => {
   try {
-    localStorage.setItem('authenticated', authenticated ? 't' : 'f');
+    localStorage.setItem("authenticated", authenticated ? "t" : "f");
   } catch {}
 };

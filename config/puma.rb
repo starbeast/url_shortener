@@ -15,6 +15,17 @@ port        ENV.fetch("PORT") { 3000 }
 #
 environment ENV.fetch("RAILS_ENV") { "development" }
 
+if ENV["RACK_ENV"] == "development"
+  localhost_key = "#{File.join('local-key.pem')}"
+  localhost_crt = "#{File.join('local.pem')}"
+  # To be able to use rake etc
+  ssl_bind '0.0.0.0', 3002, {
+    key: localhost_key,
+    cert: localhost_crt,
+    verify_mode: 'none'
+  }
+end
+
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.

@@ -33,7 +33,7 @@ module GenericCrud
     result = service.new(destroy_params).destroy
     return fail_json(result.errors, result.error_code || :unprocessable_entity) unless result.success?
 
-    head :ok
+    render json: '{}', status: 200
   end
 
   def update; end

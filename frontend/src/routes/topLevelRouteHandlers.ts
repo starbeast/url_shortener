@@ -8,7 +8,4 @@ export type RouteHandler = React.FunctionComponent<any> & {
   public?: boolean;
 };
 
-export const topLevelRouteHandlers: RouteHandler[] = [
-  Main,
-  UserDashboard,
-];
+export const topLevelRouteHandlers: RouteHandler[] = [Main, UserDashboard];

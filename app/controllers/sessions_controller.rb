@@ -5,14 +5,14 @@ class SessionsController < BaseController
   def login
     result = UsersService.new.lookup_for_login(params[:email], params[:password])
     return fail_json(result.errors, result.error_code || :unauthorized) unless result.success?
-
     session[:user_id] = result.object.id
-    head :ok
+    Rails.logger.debug(session.options.instance_eval { @by }.default_options)
+    render_ok
   end
 
   def logout
     reset_session
-    head :ok
+    render_ok
   end
 
   # we should only approve users after an email or other type of confirmation
@@ -22,10 +22,14 @@ class SessionsController < BaseController
     return fail_json(result.errors, result.error_code || :unprocessable_entity) unless result.success?
 
     session[:user_id] = result.object.id
-    head :ok
+    render_ok
   end
 
   private
+
+  def render_ok
+    render json: '{}', status: 200
+  end
 
   def create_user_params
     params.require(:email)
